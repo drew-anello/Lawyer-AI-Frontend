@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useApiUrl  } from '../Hooks/api'
 
 interface DemandLetterData {
@@ -40,6 +40,9 @@ function DemandGeneratorPage() {
   const [response, setResponse] = useState<ApiResponse | null>(null)
   const [showLetter, setShowLetter] = useState(false)
 
+  const editableRef = useRef<HTMLDivElement>(null)
+  const letterTextRef = useRef<string>('')
+
   const inputClasses = 'w-full p-3 px-4 border-2 border-gray-700 rounded-md bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 focus:bg-gray-900 focus:ring-4 focus:ring-purple-600/40'
   const labelClasses = 'block text-gray-200 font-semibold mb-2'
   const sectionHeadingClasses = 'text-purple-500 text-xl mb-6 pb-2 border-b-2 border-purple-600/60'
@@ -72,6 +75,7 @@ function DemandGeneratorPage() {
       const data: ApiResponse = await res.json()
       setResponse(data)
       if (data.success) {
+        letterTextRef.current = data.demand_letter || ''
         setShowLetter(true)
       }
     } catch (error) {
@@ -97,14 +101,22 @@ function DemandGeneratorPage() {
     })
     setResponse(null)
     setShowLetter(false)
+    letterTextRef.current = ''
   }
 
   const handleCopyLetter = () => {
-    if (response?.demand_letter) {
-      navigator.clipboard.writeText(response.demand_letter)
+    if (editableRef.current) {
+      navigator.clipboard.writeText(editableRef.current.innerText)
       alert('Demand letter copied to clipboard!')
     }
   }
+
+  // Whenever a new letter is generated or reset, push text into the editable div once
+  useEffect(() => {
+    if (showLetter && editableRef.current) {
+      editableRef.current.innerText = letterTextRef.current
+    }
+  }, [showLetter])
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black to-[#1f004d] text-gray-200">
@@ -269,7 +281,16 @@ function DemandGeneratorPage() {
                 </div>
 
                 <div className="p-8 max-h-[600px] overflow-y-auto">
-                  <pre className="whitespace-pre-wrap break-words font-serif text-base leading-relaxed text-white m-0">{response.demand_letter}</pre>
+                  <div
+                    ref={editableRef}
+                    contentEditable
+                    suppressContentEditableWarning
+                    onInput={e => {
+                      letterTextRef.current = (e.target as HTMLElement).innerText
+                    }}
+                    className="w-full min-h-[400px] whitespace-pre-wrap break-words font-serif text-base leading-relaxed text-white focus:outline-none bg-transparent"
+                    style={{whiteSpace: 'pre-wrap'}}
+                  />
                 </div>
 
                 <div className="p-8 bg-gray-800 border-t border-gray-700 flex flex-wrap gap-4">
