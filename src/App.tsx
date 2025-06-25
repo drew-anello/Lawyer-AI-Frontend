@@ -7,7 +7,6 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<DemandGeneratorPage />} />
-        {/* Future pages can be added here */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
