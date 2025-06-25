@@ -8,7 +8,7 @@ interface DemandLetterData {
   nature_of_dispute: string
   damages_suffered: string
   desired_resolution: string
-  deadline_days: number
+  deadline_days: string
 }
 
 interface DemandFormProps {
@@ -145,8 +145,6 @@ const DemandForm: React.FC<DemandFormProps> = ({ formData, onInputChange, onSubm
           name="deadline_days"
           value={formData.deadline_days}
           onChange={onInputChange}
-          min="1"
-          max="90"
           placeholder="14"
           className={inputClasses}
         />

@@ -14,7 +14,7 @@ interface DemandLetterData {
   nature_of_dispute: string
   damages_suffered: string
   desired_resolution: string
-  deadline_days: number
+  deadline_days: string
 }
 
 interface ApiResponse {
@@ -38,7 +38,7 @@ function DemandGeneratorPage() {
     nature_of_dispute: '',
     damages_suffered: '',
     desired_resolution: '',
-    deadline_days: 14
+    deadline_days: ''
   })
 
   const [loading, setLoading] = useState(false)
@@ -52,7 +52,7 @@ function DemandGeneratorPage() {
     const { name, value } = e.target
     setFormData(prev => ({
       ...prev,
-      [name]: name === 'deadline_days' ? parseInt(value) || 14 : value
+      [name]: value
     }))
   }
 
@@ -62,12 +62,17 @@ function DemandGeneratorPage() {
       setResponse(null)
       
       try {
+      const payload = {
+        ...formData,
+        deadline_days: formData.deadline_days ? parseInt(formData.deadline_days) : undefined,
+      }
+
       const res = await fetch(`${apiUrl}/demand/generate-demand-letter`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(payload)
       })
 
       const data: ApiResponse = await res.json()
@@ -94,7 +99,7 @@ function DemandGeneratorPage() {
       nature_of_dispute: '',
       damages_suffered: '',
       desired_resolution: '',
-      deadline_days: 14
+      deadline_days: ''
     })
     setResponse(null)
     setShowLetter(false)
