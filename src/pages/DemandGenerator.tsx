@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import '../App.css'
+import { useApiUrl  } from '../Hooks/api'
 
 interface DemandLetterData {
   client_name: string
@@ -47,6 +48,7 @@ function DemandGeneratorPage() {
       [name]: name === 'deadline_days' ? parseInt(value) || 14 : value
     }))
   }
+const apiUrl = useApiUrl()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -54,7 +56,7 @@ function DemandGeneratorPage() {
     setResponse(null)
 
     try {
-      const res = await fetch('http://localhost:8000/demand/generate-demand-letter', {
+      const res = await fetch(`${apiUrl}/demand/generate-demand-letter`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
