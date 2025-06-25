@@ -102,7 +102,7 @@ function App() {
   return (
     <div className="app-container">
       <header className="app-header">
-        <h1>⚖️ Demand Letter Generator</h1>
+        <h1>Demand Letter Generator</h1>
         <p>Generate professional demand letters for your legal practice</p>
       </header>
 
@@ -259,7 +259,7 @@ function App() {
 
                 <div className="letter-actions">
                   <button className="btn-primary" onClick={handleCopyLetter}>
-                    📋 Copy to Clipboard
+                    Copy to Clipboard
                   </button>
                   <button className="btn-secondary" onClick={() => setShowLetter(false)}>
                     ← Back to Form
@@ -276,6 +276,14 @@ function App() {
         {response?.error && (
           <div className="error-message">
             <strong>Error:</strong> {response.error}
+          </div>
+        )}
+
+        {/* Loading overlay */}
+        {loading && (
+          <div className="loading-overlay">
+            <div className="spinner" />
+            <p className="loading-text">Generating...</p>
           </div>
         )}
       </main>
