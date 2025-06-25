@@ -39,6 +39,7 @@ function DemandGeneratorPage() {
   const [loading, setLoading] = useState(false)
   const [response, setResponse] = useState<ApiResponse | null>(null)
   const [showLetter, setShowLetter] = useState(false)
+  const [consentChecked, setConsentChecked] = useState(false)
 
   const editableRef = useRef<HTMLDivElement>(null)
   const letterTextRef = useRef<string>('')
@@ -249,8 +250,22 @@ function DemandGeneratorPage() {
               </div>
             </div>
 
+            {/* Consent disclaimer */}
+            <div className="my-6 flex items-start gap-3">
+              <input
+                type="checkbox"
+                id="consent"
+                checked={consentChecked}
+                onChange={e => setConsentChecked(e.target.checked)}
+                className="mt-1 h-5 w-5 text-purple-600 bg-gray-800 border-gray-600 rounded focus:ring-purple-600/50 focus:ring-2"
+              />
+              <label htmlFor="consent" className="text-sm text-gray-300 select-none">
+                I acknowledge that this AI may produce inaccurate information. I will review the generated document for accuracy and accept sole responsibility for its contents.
+              </label>
+            </div>
+
             <div className="flex flex-wrap gap-4 mt-8 pt-8 border-t border-gray-800">
-              <button type="submit" className={primaryButtonClasses} disabled={loading}>
+              <button type="submit" className={primaryButtonClasses} disabled={loading || !consentChecked}>
                 {loading ? 'Generating...' : 'Generate Demand Letter'}
               </button>
               <button type="button" className={secondaryButtonClasses} onClick={handleReset}>
