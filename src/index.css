@@ -43,13 +43,11 @@ input, textarea {
   font-family: inherit;
 }
 
-/* Remove default button styles */
 button:focus-visible {
   outline: 2px solid #8e2de2;
   outline-offset: 2px;
 }
 
-/* Ensure full height for React root */
 #root {
   min-height: 100vh;
 }
