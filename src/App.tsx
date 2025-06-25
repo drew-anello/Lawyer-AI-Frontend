@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import DemandGeneratorPage from './pages/DemandGenerator'
-import './App.css'
 
 function App() {
   return (

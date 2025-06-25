@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import '../App.css'
+// import '../App.css' // Disabled: migrating to Tailwind utilities
 import { useApiUrl  } from '../Hooks/api'
 
 interface DemandLetterData {
@@ -40,6 +40,13 @@ function DemandGeneratorPage() {
   const [loading, setLoading] = useState(false)
   const [response, setResponse] = useState<ApiResponse | null>(null)
   const [showLetter, setShowLetter] = useState(false)
+
+  // Tailwind utility class strings to keep JSX tidy
+  const inputClasses = 'w-full p-3 px-4 border-2 border-gray-700 rounded-md bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 focus:bg-gray-900 focus:ring-4 focus:ring-purple-600/40'
+  const labelClasses = 'block text-gray-200 font-semibold mb-2'
+  const sectionHeadingClasses = 'text-purple-500 text-xl mb-6 pb-2 border-b-2 border-purple-600/60'
+  const primaryButtonClasses = 'bg-gradient-to-r from-purple-600 via-blue-600 to-blue-500 text-white px-8 py-3 rounded-md font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition disabled:opacity-60 disabled:cursor-not-allowed'
+  const secondaryButtonClasses = 'bg-gray-700 text-gray-200 px-8 py-3 rounded-md font-semibold hover:bg-gray-600'
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -102,20 +109,19 @@ function DemandGeneratorPage() {
   }
 
   return (
-    <div className="app-container">
-      <header className="app-header">
-        <h1>Demand Letter Generator</h1>
-        <p>Generate professional demand letters for your legal practice</p>
+    <div className="min-h-screen bg-gradient-to-br from-black to-[#1f004d] text-gray-200">
+      <header className="bg-gradient-to-r from-purple-700 to-purple-500 text-white py-8 text-center shadow-lg">
+        <h1 className="text-4xl font-bold">Demand Letter Generator</h1>
+        <p className="mt-2 text-lg opacity-90">Generate professional demand letters for your legal practice</p>
       </header>
 
-      <main className="main-content">
+      <main className="max-w-4xl mx-auto p-8">
         {!showLetter ? (
-          <form onSubmit={handleSubmit} className="demand-form">
-            {/* form sections same as before */}
-            <div className="form-section">
-              <h2>Client Information</h2>
-              <div className="form-group">
-                <label htmlFor="client_name">Client Name *</label>
+          <form onSubmit={handleSubmit} className="bg-neutral-900 rounded-xl shadow-lg p-8">
+            <div className="mb-10">
+              <h2 className={sectionHeadingClasses}>Client Information</h2>
+              <div className="mb-6">
+                <label htmlFor="client_name" className={labelClasses}>Client Name *</label>
                 <input
                   type="text"
                   id="client_name"
@@ -124,11 +130,12 @@ function DemandGeneratorPage() {
                   onChange={handleInputChange}
                   required
                   placeholder="John Doe or ABC Corporation"
+                  className={inputClasses}
                 />
               </div>
 
-              <div className="form-group">
-                <label htmlFor="opposing_party">Opposing Party *</label>
+              <div className="mb-6">
+                <label htmlFor="opposing_party" className={labelClasses}>Opposing Party *</label>
                 <input
                   type="text"
                   id="opposing_party"
@@ -137,14 +144,15 @@ function DemandGeneratorPage() {
                   onChange={handleInputChange}
                   required
                   placeholder="Jane Smith or XYZ Company"
+                  className={inputClasses}
                 />
               </div>
             </div>
 
-            <div className="form-section">
-              <h2>Case Details</h2>
-              <div className="form-group">
-                <label htmlFor="legal_matter">Legal Matter *</label>
+            <div className="mb-10">
+              <h2 className={sectionHeadingClasses}>Case Details</h2>
+              <div className="mb-6">
+                <label htmlFor="legal_matter" className={labelClasses}>Legal Matter *</label>
                 <input
                   type="text"
                   id="legal_matter"
@@ -153,11 +161,12 @@ function DemandGeneratorPage() {
                   onChange={handleInputChange}
                   required
                   placeholder="e.g., breach of contract, personal injury, property damage"
+                  className={inputClasses}
                 />
               </div>
 
-              <div className="form-group">
-                <label htmlFor="date_of_incident">Date of Incident *</label>
+              <div className="mb-6">
+                <label htmlFor="date_of_incident" className={labelClasses}>Date of Incident *</label>
                 <input
                   type="date"
                   id="date_of_incident"
@@ -165,11 +174,12 @@ function DemandGeneratorPage() {
                   value={formData.date_of_incident}
                   onChange={handleInputChange}
                   required
+                  className={inputClasses}
                 />
               </div>
 
-              <div className="form-group">
-                <label htmlFor="nature_of_dispute">Nature of Dispute *</label>
+              <div className="mb-6">
+                <label htmlFor="nature_of_dispute" className={labelClasses}>Nature of Dispute *</label>
                 <textarea
                   id="nature_of_dispute"
                   name="nature_of_dispute"
@@ -178,14 +188,15 @@ function DemandGeneratorPage() {
                   required
                   rows={4}
                   placeholder="Describe the circumstances and facts of the dispute..."
+                  className={inputClasses}
                 />
               </div>
             </div>
 
-            <div className="form-section">
-              <h2>Damages & Resolution</h2>
-              <div className="form-group">
-                <label htmlFor="damages_suffered">Damages Suffered *</label>
+            <div className="mb-10">
+              <h2 className={sectionHeadingClasses}>Damages & Resolution</h2>
+              <div className="mb-6">
+                <label htmlFor="damages_suffered" className={labelClasses}>Damages Suffered *</label>
                 <textarea
                   id="damages_suffered"
                   name="damages_suffered"
@@ -194,11 +205,12 @@ function DemandGeneratorPage() {
                   required
                   rows={3}
                   placeholder="e.g., $50,000 in lost revenue, medical expenses, property damage..."
+                  className={inputClasses}
                 />
               </div>
 
-              <div className="form-group">
-                <label htmlFor="desired_resolution">Desired Resolution *</label>
+              <div className="mb-6">
+                <label htmlFor="desired_resolution" className={labelClasses}>Desired Resolution *</label>
                 <textarea
                   id="desired_resolution"
                   name="desired_resolution"
@@ -207,11 +219,12 @@ function DemandGeneratorPage() {
                   required
                   rows={3}
                   placeholder="e.g., Payment of $50,000, cease and desist, specific performance..."
+                  className={inputClasses}
                 />
               </div>
 
-              <div className="form-group">
-                <label htmlFor="deadline_days">Deadline (days)</label>
+              <div className="mb-6">
+                <label htmlFor="deadline_days" className={labelClasses}>Deadline (days)</label>
                 <input
                   type="number"
                   id="deadline_days"
@@ -221,53 +234,54 @@ function DemandGeneratorPage() {
                   min="1"
                   max="90"
                   placeholder="14"
+                  className={inputClasses}
                 />
               </div>
             </div>
 
-            <div className="form-actions">
-              <button type="submit" className="btn-primary" disabled={loading}>
+            <div className="flex flex-wrap gap-4 mt-8 pt-8 border-t border-gray-800">
+              <button type="submit" className={primaryButtonClasses} disabled={loading}>
                 {loading ? 'Generating...' : 'Generate Demand Letter'}
               </button>
-              <button type="button" className="btn-secondary" onClick={handleReset}>
+              <button type="button" className={secondaryButtonClasses} onClick={handleReset}>
                 Clear Form
               </button>
             </div>
           </form>
         ) : (
-          <div className="letter-display">
+          <div className="bg-gray-900 rounded-xl shadow-lg overflow-hidden">
             {response?.success && response.demand_letter && (
               <>
-                <div className="letter-metadata">
-                  <h3>Generated Demand Letter</h3>
-                  <div className="metadata-grid">
-                    <div>
+                <div className="bg-gray-800 p-8 border-b border-gray-700">
+                  <h3 className="text-purple-500 text-2xl mb-6">Generated Demand Letter</h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="p-3 bg-gray-900 rounded-md border border-gray-700">
                       <strong>Client:</strong> {response.metadata?.client}
                     </div>
-                    <div>
+                    <div className="p-3 bg-gray-900 rounded-md border border-gray-700">
                       <strong>Opposing Party:</strong> {response.metadata?.opposing_party}
                     </div>
-                    <div>
+                    <div className="p-3 bg-gray-900 rounded-md border border-gray-700">
                       <strong>Deadline:</strong> {response.metadata?.deadline_date}
                     </div>
-                    <div>
+                    <div className="p-3 bg-gray-900 rounded-md border border-gray-700">
                       <strong>Generated:</strong> {new Date(response.metadata?.generated_at || '').toLocaleString()}
                     </div>
                   </div>
                 </div>
 
-                <div className="letter-content">
-                  <pre>{response.demand_letter}</pre>
+                <div className="p-8 max-h-[600px] overflow-y-auto">
+                  <pre className="whitespace-pre-wrap break-words font-serif text-base leading-relaxed text-white m-0">{response.demand_letter}</pre>
                 </div>
 
-                <div className="letter-actions">
-                  <button className="btn-primary" onClick={handleCopyLetter}>
+                <div className="p-8 bg-gray-800 border-t border-gray-700 flex flex-wrap gap-4">
+                  <button className={primaryButtonClasses} onClick={handleCopyLetter}>
                     Copy to Clipboard
                   </button>
-                  <button className="btn-secondary" onClick={() => setShowLetter(false)}>
+                  <button className={secondaryButtonClasses} onClick={() => setShowLetter(false)}>
                     ← Back to Form
                   </button>
-                  <button className="btn-secondary" onClick={handleReset}>
+                  <button className={secondaryButtonClasses} onClick={handleReset}>
                     Create New Letter
                   </button>
                 </div>
@@ -277,15 +291,15 @@ function DemandGeneratorPage() {
         )}
 
         {response?.error && (
-          <div className="error-message">
+          <div className="bg-rose-900 border border-rose-700 text-rose-300 p-6 rounded-md mt-8">
             <strong>Error:</strong> {response.error}
           </div>
         )}
 
         {loading && (
-          <div className="loading-overlay">
-            <div className="spinner" />
-            <p className="loading-text">Generating...</p>
+          <div className="fixed inset-0 bg-black/60 backdrop-blur flex flex-col items-center justify-center z-50">
+            <div className="w-20 h-20 border-4 border-white/20 border-t-purple-500 rounded-full animate-spin" />
+            <p className="mt-4 text-xl text-gray-200">Generating...</p>
           </div>
         )}
       </main>
