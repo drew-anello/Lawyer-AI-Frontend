@@ -48,6 +48,7 @@ function DemandGeneratorPage() {
       [name]: name === 'deadline_days' ? parseInt(value) || 14 : value
     }))
   }
+  const apiUrl = useApiUrl()
   
   const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault()
@@ -55,7 +56,6 @@ function DemandGeneratorPage() {
       setResponse(null)
       
       try {
-        const apiUrl = useApiUrl()
       const res = await fetch(`${apiUrl}/demand/generate-demand-letter`, {
         method: 'POST',
         headers: {
